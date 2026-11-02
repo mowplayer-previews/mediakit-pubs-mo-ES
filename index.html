@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MOW Player · Publishers</title>
+<meta name="description" content="Soluciones de MOW Player para publishers: Summary, Live Data Widget, MOW Brief y Receptividad.">
+<link rel="icon" href="assets/mow-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400..900&family=Manrope:wght@500..800&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:#0b0711;overflow:hidden}
+  body{font-family:Manrope,sans-serif;color:#f4eff7;-webkit-font-smoothing:antialiased}
+  #stage{position:absolute;top:50%;left:50%;width:1920px;height:1080px;transform-origin:center center}
+  #stage>section{position:absolute;inset:0;width:1920px;height:1080px;overflow:hidden;font-family:Manrope,sans-serif;color:#f4eff7;opacity:0;visibility:hidden;transition:opacity .45s ease,visibility .45s}
+  #stage>section.active{opacity:1;visibility:visible}
+  section img{display:block}
+  section a{color:inherit;text-decoration:none}
+  aside{display:none}
+  #notes{position:fixed;left:0;right:0;bottom:0;max-height:40vh;overflow:auto;background:#140c1fee;border-top:2px solid #3a2f48;padding:16px 24px 56px;font-size:16px;line-height:1.5;color:#d6cde0;display:none;z-index:5}
+  #notes.on{display:block}
+  #bar{position:fixed;right:16px;bottom:12px;display:flex;gap:8px;align-items:center;z-index:6;opacity:.35;transition:opacity .2s}
+  #bar:hover{opacity:1}
+  #bar button{background:#1e1429;border:1px solid #3a2f48;color:#f4eff7;border-radius:999px;width:36px;height:36px;font-size:16px;cursor:pointer}
+  #count{font-size:14px;font-weight:700;color:#d6cde0;min-width:44px;text-align:center}
+  #prog{position:fixed;left:0;top:0;height:4px;background:linear-gradient(90deg,#fc3262,#921ea0);transition:width .3s;z-index:6}
+  /* Mobile vertical: una página con scroll, cada slide reacomodada */
+  html.m,html.m body{height:auto;overflow:auto;overflow-x:hidden}
+  html.m #bar,html.m #prog,html.m #notes{display:none!important}
+  html.m #stage{position:static;width:680px;height:auto;transform:none}
+  html.m #stage>section{position:relative;inset:auto;width:680px!important;height:auto!important;opacity:1;visibility:visible;transition:none;display:flex!important;flex-direction:column!important;gap:30px!important;padding:64px 40px 72px!important;overflow:visible;border-bottom:2px solid #2a1d38}
+  html.m #stage>section .mx-hide{display:none!important}
+  html.m #stage>section .mx-static{position:static!important;top:auto!important;left:auto!important;right:auto!important;bottom:auto!important}
+  html.m #stage>section .mx-w{width:auto!important;max-width:100%!important}
+  html.m #stage>section .mx-h{height:auto!important}
+  html.m #stage>section .mx-img{width:100%!important;height:auto!important;max-width:100%!important}
+  html.m #stage>section .mx-wrap{flex-wrap:wrap!important}
+  html.m #stage>section .mx-col{flex-direction:column!important;align-items:stretch!important}
+  html.m #stage>section .mx-item{flex:none!important;width:auto!important;min-width:0}
+  html.m #stage>section .mx-tl{text-align:left!important;white-space:normal!important}
+  html.m #stage>section .mx-cta{align-self:flex-start;width:auto!important;font-size:30px!important}
+</style>
+</head>
+<body>
+<div id="prog"></div>
+<div id="stage">
+<section id="intro" data-transition="fade" style="display:flex; flex-direction:column; gap:32px; padding:88px 120px 150px; background:radial-gradient(ellipse at 85% 10%, #4a1650 0%, #140c1f 60%); color:#f4eff7; font-family:Manrope, sans-serif">
+  <div style="position:absolute; top:480px; left:0; width:1000px; height:600px; background:radial-gradient(ellipse at 0% 100%, #921ea052 0%, #140c1f00 70%)"></div>
+  <div style="display:flex; flex-direction:row; gap:24px; align-items:center">
+    <img src="assets/mow-logo.png" alt="Logo de MOW Player" style="width:130px; height:54px; object-fit:contain">
+    <p style="padding:8px 22px; font-size:24px; font-weight:800; letter-spacing:3px; text-transform:uppercase; color:#ffffff; background:linear-gradient(90deg, #fc3262 0%, #921ea0 100%); border-radius:999px">Soluciones para publishers</p>
+  </div>
+  <div style="display:flex; flex-direction:row; gap:56px; flex:1">
+    <div style="width:780px; display:flex; flex-direction:column; gap:20px">
+      <h1 style="font-family:Archivo, sans-serif; font-size:76px; font-weight:900; line-height:1.02; letter-spacing:-2px; color:#f7f3fa">Monetizá mejor <span style="color:#ff5c84">cada visita</span></h1>
+      <p style="font-size:32px; font-weight:700; line-height:1.35; color:#f7f3fa">Más valor para tu audiencia. Nuevas oportunidades de ingresos.</p>
+      <div style="padding:4px 0px 4px 26px; border-left:6px solid #fc3262">
+        <p style="font-size:26px; font-weight:600; line-height:1.4; color:#d6cde0"><span style="color:#ff5c84">Zero-click:</span> la IA responde en el buscador y el usuario ya no entra a tu sitio.</p>
+      </div>
+      <div style="display:flex; flex-direction:row; gap:14px">
+        <div style="flex:1; background:#1e1429; border:2px solid #3a2f48; border-radius:18px; padding:18px 22px; display:flex; flex-direction:column; gap:6px"><p style="font-family:Archivo, sans-serif; font-size:60px; font-weight:900; line-height:1; letter-spacing:-1.5px; color:#ff5c84">−47%</p><p style="font-size:24px; font-weight:700; line-height:1.3; color:#f7f3fa">menos clics cuando aparece un resumen de IA</p></div>
+        <div style="flex:1; background:#1e1429; border:2px solid #3a2f48; border-radius:18px; padding:18px 22px; display:flex; flex-direction:column; gap:6px"><p style="font-family:Archivo, sans-serif; font-size:60px; font-weight:900; line-height:1; letter-spacing:-1.5px; color:#c65bff">−33%</p><p style="font-size:24px; font-weight:700; line-height:1.3; color:#f7f3fa">de tráfico orgánico desde Google</p></div>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px">
+        <div style="display:flex; flex-direction:row; gap:16px; align-items:center; background:#f6f3f8; border-radius:18px; box-shadow:0px 14px 40px rgba(0,0,0,0.35); padding:16px 20px"><div style="width:48px; height:48px; border-radius:14px; background:linear-gradient(135deg, #fc3262 0%, #c22a86 100%); display:flex; align-items:center; justify-content:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;color:#ffffff; width:26px; height:26px"><polygon points="6 3 20 12 6 21 6 3"/></svg></div><p style="font-size:26px; font-weight:800; color:#1d2b36">Summary</p></div>
+        <div style="display:flex; flex-direction:row; gap:16px; align-items:center; background:#f6f3f8; border-radius:18px; box-shadow:0px 14px 40px rgba(0,0,0,0.35); padding:16px 20px"><div style="width:48px; height:48px; border-radius:14px; background:linear-gradient(135deg, #d63a8a 0%, #b03cc8 100%); display:flex; align-items:center; justify-content:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;color:#ffffff; width:26px; height:26px"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><p style="font-size:26px; font-weight:800; color:#1d2b36">Live Data Widget</p></div>
+        <div style="display:flex; flex-direction:row; gap:16px; align-items:center; background:#f6f3f8; border-radius:18px; box-shadow:0px 14px 40px rgba(0,0,0,0.35); padding:16px 20px"><div style="width:48px; height:48px; border-radius:14px; background:linear-gradient(135deg, #b03cc8 0%, #921ea0 100%); display:flex; align-items:center; justify-content:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;color:#ffffff; width:26px; height:26px"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg></div><p style="font-size:26px; font-weight:800; color:#1d2b36">MOW Brief</p></div>
+        <div style="display:flex; flex-direction:row; gap:16px; align-items:center; background:#f6f3f8; border-radius:18px; box-shadow:0px 14px 40px rgba(0,0,0,0.35); padding:16px 20px"><div style="width:48px; height:48px; border-radius:14px; background:linear-gradient(135deg, #921ea0 0%, #6a1580 100%); display:flex; align-items:center; justify-content:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;color:#ffffff; width:26px; height:26px"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div><p style="font-size:26px; font-weight:800; color:#1d2b36">Receptividad</p></div>
+      </div>
+    </div>
+    <div style="flex:1; display:flex; flex-direction:column; gap:14px">
+      <img src="assets/busqueda.gif" alt="Animación: alguien busca a cuánto cerró el dólar, el buscador muestra un resumen de IA con la respuesta y el resultado del medio queda con 0 visitas" style="width:844px; height:560px; object-fit:contain; border-radius:18px; box-shadow:0px 24px 60px rgba(0,0,0,0.5)">
+      <p style="font-size:24px; font-weight:600; line-height:1.35; color:#a3a9b0">Solo 1 de cada 100 visitas con resumen de IA terminó en un clic a sus fuentes. Fuentes: Pew Research Center, 2025 (−47% y 1 de 100) y Chartbeat vía Reuters Institute (−33%, más de 2.500 sitios, nov 2024 a nov 2025).</p>
+    </div>
+  </div>
+  <aside>Los resúmenes de IA que aparecen ni bien un usuario realiza una consulta puntual en un buscador (por ejemplo, Google con Gemini) generaron una caída en la cantidad de usuarios que visitan los sitios web: ya no es necesario entrar para obtener la información. Datos: −47% de clics en resultados tradicionales cuando Google muestra un resumen de IA (Pew, 900 adultos de EE. UU., marzo 2025; no significa que todos los medios hayan perdido 47%); −33% de tráfico orgánico desde Google en más de 2.500 sitios entre nov 2024 y nov 2025 (Chartbeat vía Reuters Institute; no se atribuye toda la caída a la IA). A la derecha, una búsqueda de ejemplo: el resumen responde y el resultado del medio no recibe la visita. En este escenario, que se va a profundizar con el tiempo, es crucial aprovechar aún mejor la audiencia del sitio. En MOW Player desarrollamos soluciones que enriquecen la experiencia del usuario, potencian el engagement y generan nuevas oportunidades de monetización. Cuatro soluciones: Summary texto/audio (contenido editorial en formatos más accesibles y dinámicos), Live Data Widget (información relevante y actualizada en tiempo real), MOW Brief (las noticias más importantes del sitio, en un vistazo) y Receptividad (publicidad que prioriza los momentos de atención del usuario).</aside>
+</section>
+<section id="summary" data-transition="fade" style="background:radial-gradient(ellipse at 88% 0%, #3b1645 0%, #140c1f 55%);color:#f4eff7;font-family:Manrope, sans-serif;padding:88px 120px 150px;display:flex;flex-direction:column;gap:28px">
+<div style="position:absolute;left:0px;top:480px;width:1000px;height:600px;background:radial-gradient(ellipse at 0% 100%, rgba(146,30,160,0.30) 0%, rgba(20,12,31,0) 70%)"></div>
+<div style="width:780px;display:flex;flex-direction:column;gap:16px">
+<p style="align-self:flex-start;font-weight:800;font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#ffffff;background:linear-gradient(90deg, #fc3262 0%, #921ea0 100%);padding:8px 22px;border-radius:999px">Summary texto/audio</p>
+<h2 style="font-family:Archivo, sans-serif;font-weight:900;font-size:50px;line-height:1.06;letter-spacing:-1.5px;color:#f7f3fa">Transformá tus artículos en nuevas experiencias de consumo</h2>
+</div>
+<div style="width:780px;display:flex;flex-direction:column;gap:18px">
+<p style="font-size:26px;font-weight:500;line-height:1.4;color:#d6cde0">Resúmenes generados con IA, en <b style="color:#f7f3fa">texto, audio o ambos</b>.</p>
+<div style="display:flex;flex-direction:row;gap:16px">
+<div style="flex:1;background:#f6f3f8;border-top:8px solid #fc3262;border-radius:20px;box-shadow:0px 14px 40px rgba(0,0,0,0.35);padding:20px 22px;display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;flex-direction:row;gap:12px;align-items:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;color:#e0204f;width:32px;height:32px"><polygon points="6 3 20 12 6 21 6 3"/></svg><h3 style="font-family:Manrope, sans-serif;font-size:28px;font-weight:800;color:#1d2b36">Summary de audio</h3></div>
+<div style="display:flex;flex-direction:row;gap:10px;align-items:flex-start"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;color:#e0204f;width:28px;height:28px"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><p style="flex:1;font-size:24px;font-weight:700;line-height:1.3;color:#1d2b36">Permite consumir contenido mientras el usuario navega o hace otras actividades.</p></div>
+<div style="display:flex;flex-direction:row;gap:10px;align-items:flex-start"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;color:#e0204f;width:28px;height:28px"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><p style="flex:1;font-size:24px;font-weight:700;line-height:1.3;color:#1d2b36">Amplía el acceso a la información más allá de la lectura tradicional.</p></div>
+</div>
+<div style="flex:1;background:#f6f3f8;border-top:8px solid #b03cc8;border-radius:20px;box-shadow:0px 14px 40px rgba(0,0,0,0.35);padding:20px 22px;display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;flex-direction:row;gap:12px;align-items:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;color:#921ea0;width:32px;height:32px"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg><h3 style="font-family:Manrope, sans-serif;font-size:28px;font-weight:800;color:#1d2b36">Summary de texto</h3></div>
+<div style="display:flex;flex-direction:row;gap:10px;align-items:flex-start"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;color:#921ea0;width:28px;height:28px"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><p style="flex:1;font-size:24px;font-weight:700;line-height:1.3;color:#1d2b36">Facilita una lectura rápida y eficiente.</p></div>
+<div style="display:flex;flex-direction:row;gap:10px;align-items:flex-start"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;color:#921ea0;width:28px;height:28px"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><p style="flex:1;font-size:24px;font-weight:700;line-height:1.3;color:#1d2b36">Destaca las ideas principales para identificar rápido el contenido relevante.</p></div>
+</div>
+</div>
+<div style="background:#1e1429;border-left:6px solid #fc3262;border-radius:18px;padding:16px 26px;display:flex;flex-direction:column;gap:6px">
+<p style="font-size:24px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#ff5c84">Valor para el publisher</p>
+<p style="font-size:24px;font-weight:500;line-height:1.35;color:#d6cde0"><b style="color:#f7f3fa">Mayor engagement:</b> una experiencia más accesible.</p>
+<p style="font-size:24px;font-weight:500;line-height:1.35;color:#d6cde0"><b style="color:#f7f3fa">Más permanencia:</b> más tiempo en tu sitio.</p>
+<p style="font-size:24px;font-weight:500;line-height:1.35;color:#d6cde0"><b style="color:#f7f3fa">Nuevos ingresos:</b> ads de audio y display integrados.</p>
+</div>
+</div>
+<img src="assets/summary.gif" alt="Animación: el lector baja por una nota, toca Leer resumen y el Summary se despliega con el resumen de texto generado con IA y el reproductor de audio" style="position:absolute;left:940px;top:120px;width:860px;height:782px;object-fit:contain;border-radius:18px;box-shadow:0px 24px 60px rgba(0,0,0,0.5)">
+<img src="assets/mow-logo.png" alt="Logo de MOW Player" style="position:absolute;left:120px;bottom:52px;width:100px;height:41px;object-fit:contain">
+<p style="position:absolute;right:120px;bottom:58px;width:1300px;text-align:right;font-size:24px;font-weight:700;color:#ff5c84">Más formas de consumir contenido, sin sumar trabajo editorial.</p>
+<aside>Convertí tus contenidos editoriales en resúmenes generados con inteligencia artificial, disponibles en formato de texto, audio o ambos. Audio: permite consumir contenido mientras el usuario navega o realiza otras actividades, y amplía las posibilidades de acceso más allá de la lectura tradicional. Texto: facilita una lectura rápida y eficiente, y destaca las ideas principales. Valor para el publisher: una experiencia más accesible y flexible que puede favorecer el engagement, aumentar el tiempo de permanencia y generar nuevas oportunidades de monetización mediante publicidad de audio y display integrada de forma natural. A la derecha, el Summary integrado dentro de una nota.</aside>
+</section>
+<section id="livedata" data-transition="fade" style="background:radial-gradient(ellipse at 88% 0%, #3b1645 0%, #140c1f 55%);color:#f4eff7;font-family:Manrope, sans-serif;padding:88px 120px 150px;display:flex;flex-direction:column;gap:24px">
+<div style="position:absolute;left:0px;top:480px;width:1000px;height:600px;background:radial-gradient(ellipse at 0% 100%, rgba(146,30,160,0.30) 0%, rgba(20,12,31,0) 70%)"></div>
+<div style="display:flex;flex-direction:column;gap:16px">
+<p style="align-self:flex-start;font-weight:800;font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#ffffff;background:linear-gradient(90deg, #fc3262 0%, #921ea0 100%);padding:8px 22px;border-radius:999px">Live Data Widget</p>
+<h2 style="font-family:Archivo, sans-serif;font-weight:900;font-size:56px;line-height:1.06;letter-spacing:-1.5px;color:#f7f3fa">Información relevante y actualizada, directamente en tu sitio</h2>
+</div>
+<img src="assets/livedata.gif" alt="Animación: dentro de una nota, el Live Data Widget va rotando entre fútbol (Primera División), clima, horóscopo y juegos" style="width:1680px;height:400px;object-fit:cover;border-radius:18px;box-shadow:0px 24px 60px rgba(0,0,0,0.5)">
+<div style="display:flex;flex-direction:row;gap:20px;flex:1">
+<div style="width:600px;background:#1e1429;border:2px solid #3a2f48;border-radius:18px;padding:20px 24px;display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#c9bfd4">Verticales</p>
+<div style="display:flex;flex-direction:row;flex-wrap:wrap;gap:10px">
+<div style="display:flex;flex-direction:row;gap:10px;align-items:center;border:2px solid #3a2f48;background:#140c1f;padding:6px 16px;border-radius:999px"><div style="width:14px;height:14px;background:#1f9d55;border-radius:7px"></div><p style="font-size:24px;font-weight:700;color:#f4eff7">Deportes</p></div>
+<div style="display:flex;flex-direction:row;gap:10px;align-items:center;border:2px solid #3a2f48;background:#140c1f;padding:6px 16px;border-radius:999px"><div style="width:14px;height:14px;background:#0f9b8e;border-radius:7px"></div><p style="font-size:24px;font-weight:700;color:#f4eff7">Clima</p></div>
+<div style="display:flex;flex-direction:row;gap:10px;align-items:center;border:2px solid #3a2f48;background:#140c1f;padding:6px 16px;border-radius:999px"><div style="width:14px;height:14px;background:#2b7de9;border-radius:7px"></div><p style="font-size:24px;font-weight:700;color:#f4eff7">Finanzas</p></div>
+<div style="display:flex;flex-direction:row;gap:10px;align-items:center;border:2px solid #3a2f48;background:#140c1f;padding:6px 16px;border-radius:999px"><div style="width:14px;height:14px;background:#d18a00;border-radius:7px"></div><p style="font-size:24px;font-weight:700;color:#f4eff7">Lotería</p></div>
+<div style="display:flex;flex-direction:row;gap:10px;align-items:center;border:2px solid #3a2f48;background:#140c1f;padding:6px 16px;border-radius:999px"><div style="width:14px;height:14px;background:#b02a8e;border-radius:7px"></div><p style="font-size:24px;font-weight:700;color:#f4eff7">Horóscopo</p></div>
+<div style="display:flex;flex-direction:row;gap:10px;align-items:center;border:2px solid #3a2f48;background:#140c1f;padding:6px 16px;border-radius:999px"><div style="width:14px;height:14px;background:#6d5dfc;border-radius:7px"></div><p style="font-size:24px;font-weight:700;color:#f4eff7">Juegos</p></div>
+</div>
+</div>
+<div style="flex:1;background:#1e1429;border-left:6px solid #fc3262;border-radius:18px;padding:20px 28px;display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#ff5c84">Valor para el publisher</p>
+<div style="display:flex;flex-direction:row;gap:24px">
+<div style="flex:1;display:flex;flex-direction:column;gap:4px"><p style="font-size:26px;font-weight:800;line-height:1.2;color:#f7f3fa">Mayor engagement</p><p style="font-size:24px;font-weight:500;line-height:1.3;color:#d6cde0">Datos en vivo que dan motivos para volver.</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:4px"><p style="font-size:26px;font-weight:800;line-height:1.2;color:#f7f3fa">Experiencia personalizada</p><p style="font-size:24px;font-weight:500;line-height:1.3;color:#d6cde0">Adaptado a cada sitio.</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:4px"><p style="font-size:26px;font-weight:800;line-height:1.2;color:#f7f3fa">Monetización incremental</p><p style="font-size:24px;font-weight:500;line-height:1.3;color:#d6cde0">Publicidad integrada.</p></div>
+</div>
+</div>
+</div>
+<img src="assets/mow-logo.png" alt="Logo de MOW Player" style="position:absolute;left:120px;bottom:52px;width:100px;height:41px;object-fit:contain">
+<p style="position:absolute;right:120px;bottom:58px;width:1400px;text-align:right;font-size:24px;font-weight:700;color:#ff5c84">El contenido adecuado, para la audiencia adecuada, en el lugar indicado.</p>
+<aside>Integrá contenido dinámico y útil para tu audiencia, desde resultados deportivos y calendarios de competiciones hasta información del clima, horóscopos y otras verticales. Arriba, el widget integrado dentro de una nota, rotando entre cuatro verticales: fútbol (captura real), clima, horóscopo y juegos (ejemplos ilustrativos con datos de muestra). Qué aporta: mayor engagement (contenido interactivo que invita a consultar información actualizada), experiencia personalizada (adaptamos el widget a la temática y las necesidades de cada sitio), y monetización incremental (nuevas oportunidades de ingresos con publicidad integrada).</aside>
+</section>
+<section id="brief" data-transition="fade" style="display:flex; flex-direction:column; gap:32px; padding:88px 120px 150px; background:radial-gradient(ellipse at 88% 0%, #3b1645 0%, #140c1f 55%)">
+  <div style="position:absolute; top:480px; left:0; width:1000px; height:600px; display:flex; flex-direction:column; background:radial-gradient(ellipse at 0% 100%, #921ea04d 0%, #140c1f00 70%)">
+  </div>
+  <div style="display:flex; flex-direction:column; gap:16px">
+    <p style="align-self:start; padding:8px 22px; font-family:Manrope, sans-serif; font-size:24px; font-weight:800; letter-spacing:3px; text-transform:uppercase; color:#ffffff; background:linear-gradient(90deg, #fc3262 0%, #921ea0 100%); border-radius:256px">MOW Brief</p>
+    <h2 style="font-family:Archivo, sans-serif; font-size:56px; font-weight:900; line-height:1.06; letter-spacing:-1.5px; color:#f7f3fa">El resumen del día, con la voz de tu medio</h2>
+  </div>
+  <div style="display:flex; flex-direction:row; gap:48px; flex:1">
+    <div style="width:940px; display:flex; flex-direction:column; gap:20px">
+      <div style="display:flex; flex-direction:row; gap:14px; align-items:center">
+        <div style="display:flex; flex-direction:row; gap:14px; align-items:center; flex:1; padding:18px 22px; background:#f6f3f8; border-radius:18px; box-shadow:0 14px 40px #00000059">
+          <p style="font-family:Archivo, sans-serif; font-size:60px; font-weight:900; line-height:1; color:#e0204f">5</p>
+          <p style="font-family:Manrope, sans-serif; font-size:24px; font-weight:800; line-height:1.25; color:#1d2b36">noticias<br>del día</p>
+        </div>
+        <div style="flex-shrink:0;clip-path:polygon(0 30%,55% 30%,55% 0,100% 50%,55% 100%,55% 70%,0 70%);width:36px; height:20px; background:#fc3262"></div>
+        <div style="display:flex; flex-direction:row; gap:14px; align-items:center; flex:1; padding:18px 22px; background:#f6f3f8; border-radius:18px; box-shadow:0 14px 40px #00000059">
+          <p style="font-family:Archivo, sans-serif; font-size:60px; font-weight:900; line-height:1; color:#b03cc8">1</p>
+          <p style="font-family:Manrope, sans-serif; font-size:24px; font-weight:800; line-height:1.25; color:#1d2b36">resumen<br>breve</p>
+        </div>
+        <div style="flex-shrink:0;clip-path:polygon(0 30%,55% 30%,55% 0,100% 50%,55% 100%,55% 70%,0 70%);width:36px; height:20px; background:#b03cc8"></div>
+        <div style="display:flex; flex-direction:row; gap:14px; align-items:center; flex:1; padding:18px 22px; background:linear-gradient(135deg, #fc3262 0%, #921ea0 100%); border-radius:18px; box-shadow:0 14px 40px #00000059">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;width:52px; height:52px; color:#ffffff"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <p style="font-family:Manrope, sans-serif; font-size:24px; font-weight:800; line-height:1.25; color:#ffffff">al día,<br>en minutos</p>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; padding:20px 28px; background:#1e1429; border-left:6px solid #fc3262; border-radius:18px">
+        <p style="font-family:Manrope, sans-serif; font-size:26px; font-weight:600; line-height:1.4; color:#f4eff7">¿Quieren profundizar en alguna noticia? Cada resumen los lleva al <span style="color:#ff5c84">artículo original</span> y genera nuevo tráfico hacia tus contenidos.</p>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:14px; padding:20px 28px; background:#1e1429; border-left:6px solid #fc3262; border-radius:18px">
+        <p style="font-family:Manrope, sans-serif; font-size:24px; font-weight:800; letter-spacing:3px; text-transform:uppercase; color:#ff5c84">Valor para el publisher</p>
+        <div style="display:grid; gap:28px; row-gap:16px; grid-template-columns:1fr 1fr">
+          <div style="display:flex; flex-direction:column; gap:4px">
+            <p style="font-family:Manrope, sans-serif; font-size:26px; font-weight:800; line-height:1.2; color:#f7f3fa">Acceso a lo relevante</p>
+            <p style="font-family:Manrope, sans-serif; font-size:24px; font-weight:500; line-height:1.3; color:#d6cde0">Facilita el acceso a la información más importante.</p>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:4px">
+            <p style="font-family:Manrope, sans-serif; font-size:26px; font-weight:800; line-height:1.2; color:#f7f3fa">Lectores con poco tiempo</p>
+            <p style="font-family:Manrope, sans-serif; font-size:24px; font-weight:500; line-height:1.3; color:#d6cde0">Mejora su experiencia de consumo.</p>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:4px">
+            <p style="font-family:Manrope, sans-serif; font-size:26px; font-weight:800; line-height:1.2; color:#f7f3fa">Más descubrimiento</p>
+            <p style="font-family:Manrope, sans-serif; font-size:24px; font-weight:500; line-height:1.3; color:#d6cde0">Promueve otros contenidos del medio.</p>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:4px">
+            <p style="font-family:Manrope, sans-serif; font-size:26px; font-weight:800; line-height:1.2; color:#f7f3fa">Nuevos ingresos</p>
+            <p style="font-family:Manrope, sans-serif; font-size:24px; font-weight:500; line-height:1.3; color:#d6cde0">Monetización con publicidad integrada.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <img src="assets/brief.gif" alt="Animación: en la portada del medio, el lector toca Ver las 5 noticias y MOW Brief se despliega con la lista de noticias del día en audio" style="width:692px; height:590px; border-radius:18px; object-fit:contain; box-shadow:0 24px 60px #00000080">
+  </div>
+  <img src="assets/mow-logo.png" alt="Logo de MOW Player" style="position:absolute; bottom:52px; left:120px; width:100px; height:41px; object-fit:contain">
+  <p style="position:absolute; right:120px; bottom:58px; width:1450px; font-family:Manrope, sans-serif; font-size:24px; font-weight:700; text-align:right; color:#ff5c84">Menos tiempo para encontrar lo importante. Más oportunidades para descubrir tu contenido.</p>
+  <aside>Arriba, la idea en tres pasos: 5 noticias del día, 1 resumen breve, al día en minutos. MOW Brief reúne las cinco noticias más relevantes del día en un resumen breve y fácil de consumir, para que los usuarios puedan ponerse al día rápidamente. ¿Quieren profundizar en alguna noticia? Cada resumen puede dirigirlos al artículo original, generando nuevas oportunidades de tráfico hacia los contenidos editoriales. Beneficios: facilita el acceso a la información más relevante, mejora la experiencia de consumo para usuarios con poco tiempo, promueve el descubrimiento de otros contenidos del medio y abre nuevas oportunidades de monetización mediante publicidad integrada.</aside>
+</section>
+<section id="receptividad" data-transition="fade" style="background:radial-gradient(ellipse at 88% 0%, #3b1645 0%, #140c1f 55%);color:#f4eff7;font-family:Manrope, sans-serif;padding:88px 120px 150px;display:flex;flex-direction:column;gap:32px">
+<div style="position:absolute;left:0px;top:480px;width:1000px;height:600px;background:radial-gradient(ellipse at 0% 100%, rgba(146,30,160,0.30) 0%, rgba(20,12,31,0) 70%)"></div>
+<div style="display:flex;flex-direction:column;gap:16px">
+<p style="align-self:flex-start;font-weight:800;font-size:24px;letter-spacing:3px;text-transform:uppercase;color:#ffffff;background:linear-gradient(90deg, #fc3262 0%, #921ea0 100%);padding:8px 22px;border-radius:999px">Receptividad</p>
+<h2 style="font-family:Archivo, sans-serif;font-weight:900;font-size:56px;line-height:1.06;letter-spacing:-1.5px;color:#f7f3fa">Publicidad en el momento en que el usuario está prestando atención</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:40px;flex:1">
+<div style="width:940px;display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;flex-direction:row;gap:16px;align-items:flex-start"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;color:#ff5c84;width:40px;height:40px"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><p style="flex:1;font-size:30px;font-weight:800;line-height:1.3;color:#f7f3fa">Leemos las señales de comportamiento en tiempo real y mostramos el anuncio <span style="color:#ff5c84">cuando el usuario está realmente mirando la pantalla.</span></p></div>
+<div style="display:flex;flex-direction:row;gap:12px;align-items:center"><p style="font-size:24px;font-weight:700;color:#a3a9b0">Funciona en</p><p style="font-size:24px;font-weight:800;color:#ffffff;background:linear-gradient(90deg, #fc3262 0%, #c22a86 100%);padding:6px 18px;border-radius:999px">Summary</p><p style="font-size:24px;font-weight:800;color:#ffffff;background:linear-gradient(90deg, #d63a8a 0%, #b03cc8 100%);padding:6px 18px;border-radius:999px">Live Data Widget</p><p style="font-size:24px;font-weight:800;color:#ffffff;background:linear-gradient(90deg, #b03cc8 0%, #921ea0 100%);padding:6px 18px;border-radius:999px">MOW Brief</p></div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+<div style="background:#f6f3f8;border-top:6px solid #fc3262;border-radius:20px;box-shadow:0px 14px 40px rgba(0,0,0,0.35);padding:20px 24px;display:flex;flex-direction:column;gap:6px"><h3 style="font-family:Manrope, sans-serif;font-size:28px;font-weight:800;color:#1d2b36">Mayor viewability</h3><p style="font-size:24px;font-weight:500;line-height:1.35;color:#5f566a">Prioriza las oportunidades con más chances de que el anuncio se vea.</p></div>
+<div style="background:#f6f3f8;border-top:6px solid #d63a8a;border-radius:20px;box-shadow:0px 14px 40px rgba(0,0,0,0.35);padding:20px 24px;display:flex;flex-direction:column;gap:6px"><h3 style="font-family:Manrope, sans-serif;font-size:28px;font-weight:800;color:#1d2b36">Mejores CTRs</h3><p style="font-size:24px;font-weight:500;line-height:1.35;color:#5f566a">Puede favorecer una mayor interacción con la publicidad.</p></div>
+<div style="background:#f6f3f8;border-top:6px solid #b03cc8;border-radius:20px;box-shadow:0px 14px 40px rgba(0,0,0,0.35);padding:20px 24px;display:flex;flex-direction:column;gap:6px"><h3 style="font-family:Manrope, sans-serif;font-size:28px;font-weight:800;color:#1d2b36">Mayor potencial de CPM</h3><p style="font-size:24px;font-weight:500;line-height:1.35;color:#5f566a">Impresiones con mejores señales de atención.</p></div>
+<div style="background:#f6f3f8;border-top:6px solid #921ea0;border-radius:20px;box-shadow:0px 14px 40px rgba(0,0,0,0.35);padding:20px 24px;display:flex;flex-direction:column;gap:6px"><h3 style="font-family:Manrope, sans-serif;font-size:28px;font-weight:800;color:#1d2b36">Más eficiencia</h3><p style="font-size:24px;font-weight:500;line-height:1.35;color:#5f566a">Puede ayudar a mejorar el rendimiento del inventario publicitario.</p></div>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:row;gap:20px">
+<div style="flex:1;background:#1e1429;border:2px solid #3a2f48;border-radius:22px;padding:22px 20px;display:flex;flex-direction:column;gap:10px">
+<p style="font-size:24px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#c9bfd4">Señales en tiempo real</p>
+<p style="font-size:24px;font-weight:700;line-height:1.25;color:#f7f3fa;background:#2a1d38;border-left:4px solid #fc3262;border-radius:12px;padding:10px 14px">% de visibilidad</p>
+<p style="font-size:24px;font-weight:700;line-height:1.25;color:#f7f3fa;background:#2a1d38;border-left:4px solid #e0306f;border-radius:12px;padding:10px 14px">Visibilidad de la pestaña</p>
+<p style="font-size:24px;font-weight:700;line-height:1.25;color:#f7f3fa;background:#2a1d38;border-left:4px solid #c65bff;border-radius:12px;padding:10px 14px">Velocidad del scroll</p>
+<p style="font-size:24px;font-weight:700;line-height:1.25;color:#f7f3fa;background:#2a1d38;border-left:4px solid #921ea0;border-radius:12px;padding:10px 14px">Interacción reciente</p>
+<div style="flex-shrink:0;clip-path:polygon(30% 0,70% 0,70% 55%,100% 55%,50% 100%,0 55%,30% 55%);background:#fc3262;width:24px;height:32px;align-self:center"></div>
+<div style="background:linear-gradient(135deg, #fc3262 0%, #921ea0 100%);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:4px">
+<p style="font-size:26px;font-weight:800;line-height:1.2;color:#ffffff">Receptividad detectada</p>
+<p style="font-size:24px;font-weight:600;color:#ffe3ec">Se muestra el anuncio →</p>
+</div>
+</div>
+<div style="width:356px;align-self:center;background:#0d0812;border:3px solid #3a2f48;border-radius:50px;box-shadow:0px 30px 80px rgba(0,0,0,0.55), 0px 0px 60px rgba(252,50,98,0.18);padding:10px">
+<img src="assets/receptividad.gif" alt="Animación en mobile: el lector escucha MOW Brief dentro de una nota; Receptividad analiza las señales, detecta el momento y despliega el anuncio de mow integrado con Learn more" style="width:330px;height:600px;object-fit:cover;border-radius:40px">
+</div>
+</div>
+</div>
+<img src="assets/mow-logo.png" alt="Logo de MOW Player" style="position:absolute;left:120px;bottom:52px;width:100px;height:41px;object-fit:contain">
+<p style="position:absolute;right:120px;bottom:58px;width:1450px;text-align:right;font-size:24px;font-weight:700;color:#ff5c84">No se trata solo de mostrar anuncios, sino de mostrarlos cuando tienen más posibilidades de ser vistos.</p>
+<aside>Receptividad es una tecnología que puede aplicarse a Summary, Live Data Widget y MOW Brief para identificar momentos de atención y mostrar publicidad cuando las señales de comportamiento indican que el usuario está interactuando activamente con la pantalla. Analizamos señales en tiempo real, como el porcentaje de visibilidad, la visibilidad de la pestaña, la velocidad del scroll y la interacción reciente, para identificar mejores oportunidades de exposición publicitaria. A la derecha, un ejemplo en mobile: el anuncio aparece integrado en MOW Brief cuando el usuario está escuchando. Beneficios: mayor viewability, mejores CTRs, mayor potencial de CPM y más eficiencia de monetización. Presentarlos como potencial: los resultados se confirman en el test de cada sitio.</aside>
+</section>
+<section id="test" data-transition="fade" style="background:radial-gradient(ellipse at 80% 20%, #4a1650 0%, #140c1f 62%)">
+  <div style="position:absolute; top:480px; left:0; width:1100px; height:600px; display:flex; flex-direction:column; background:radial-gradient(ellipse at 0% 100%, #fc326233 0%, #140c1f00 70%)">
+  </div>
+  <img src="assets/mow-logo.png" alt="Logo de MOW Player" id="e3-1cs5qlh" style="position:absolute; bottom:52px; left:120px; width:100px; height:41px; object-fit:contain">
+  <div id="p9fe0d8adaa58r0-9e2de9fd" style="position:absolute; top:88px; left:120px; width:1680px; height:125px; display:flex; flex-direction:column; gap:16px">
+    <p style="align-self:start; padding:8px 22px; font-family:Manrope, sans-serif; font-size:24px; font-weight:800; letter-spacing:3px; text-transform:uppercase; color:#ffffff; background:linear-gradient(90deg, #fc3262 0%, #921ea0 100%); border-radius:256px">Probalo sin compromiso</p>
+    <h2 style="font-family:Archivo, sans-serif; font-size:56px; font-weight:900; line-height:1.06; letter-spacing:-1.5px; color:#f7f3fa">Descubrí el potencial de MOW Player en tu propio sitio</h2>
+  </div>
+  <p id="p9fe0d8adaa58r1-9e2de9fd" style="position:absolute; top:245px; left:120px; width:1400px; font-family:Manrope, sans-serif; font-size:28px; font-weight:500; line-height:1.4; color:#d6cde0">Cada medio tiene una audiencia, una estrategia y necesidades diferentes. Por eso te proponemos un test sin compromiso para evaluar el rendimiento de nuestras soluciones en tu sitio.</p>
+  <div id="p9fe0d8adaa58r2-9e2de9fd" style="position:absolute; top:355px; left:120px; width:1680px; height:230px; display:flex; flex-direction:row; gap:20px">
+    <div style="display:flex; flex-direction:column; gap:12px; flex:1; padding:28px 30px; background:#f6f3f8; border-top:8px solid #fc3262; border-radius:22px; box-shadow:0 16px 48px #00000059">
+      <p style="font-family:Archivo, sans-serif; font-size:48px; font-weight:900; line-height:1; color:#e0204f">1</p>
+      <p style="font-family:Manrope, sans-serif; font-size:26px; font-weight:700; line-height:1.35; color:#1d2b36">Elegimos juntos la solución más adecuada para tu audiencia.</p>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:12px; flex:1; padding:28px 30px; background:#f6f3f8; border-top:8px solid #c22a86; border-radius:22px; box-shadow:0 16px 48px #00000059">
+      <p style="font-family:Archivo, sans-serif; font-size:48px; font-weight:900; line-height:1; color:#a8239a">2</p>
+      <p style="font-family:Manrope, sans-serif; font-size:26px; font-weight:700; line-height:1.35; color:#1d2b36">Implementamos un test para evaluar su funcionamiento y rendimiento.</p>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:12px; flex:1; padding:28px 30px; background:#f6f3f8; border-top:8px solid #921ea0; border-radius:22px; box-shadow:0 16px 48px #00000059">
+      <p style="font-family:Archivo, sans-serif; font-size:48px; font-weight:900; line-height:1; color:#921ea0">3</p>
+      <p style="font-family:Manrope, sans-serif; font-size:26px; font-weight:700; line-height:1.35; color:#1d2b36">Analizamos los resultados y definimos los próximos pasos según tu experiencia y conformidad.</p>
+    </div>
+  </div>
+  <div id="7e9d9a11" style="position:absolute; top:837px; left:120px; width:1050px; display:flex; flex-direction:column; gap:8px">
+    <p style="font-family:Archivo, sans-serif; font-size:44px; font-weight:900; line-height:1.1; letter-spacing:-1px; color:#f7f3fa">Sin compromiso de continuidad.</p>
+    <p style="font-family:Manrope, sans-serif; font-size:26px; font-weight:500; line-height:1.4; color:#d6cde0">La decisión de seguir adelante depende de tu satisfacción con los resultados.</p>
+  </div>
+  <div id="contact-card" style="position:absolute; top:598px; left:1037px; width:740px; height:224px; display:flex; flex-direction:row; gap:24px; align-items:center; padding:16px 28px 16px 16px; background:#1e1429; border:2px solid #3a2f48; border-radius:24px; box-shadow:0 16px 48px #00000059">
+    <div style="width:152px; height:152px; padding:5px; border-radius:76px; background:linear-gradient(135deg, #fc3262 0%, #921ea0 100%)"><img src="assets/mateo.png" alt="Foto de Mateo Olivera" style="width:142px; height:142px; border-radius:71px; object-fit:cover"></div>
+    <div style="flex:1; display:flex; flex-direction:column; gap:6px">
+      <p style="font-family:Archivo, sans-serif; font-size:40px; font-weight:900; line-height:1.05; letter-spacing:-0.5px; color:#f7f3fa">Mateo Olivera</p>
+      <p style="font-family:Manrope, sans-serif; font-size:26px; font-weight:700; line-height:1.2; color:#ff5c84">Sales Director</p>
+      <p style="font-family:Manrope, sans-serif; font-size:24px; font-weight:600; line-height:1.3; color:#c9bfd4">Programmatic, CTV &amp; DOOH | Live Data Widget | Adops</p>
+      <p style="font-family:Manrope, sans-serif; font-size:24px; font-weight:600; color:#d6cde0"><a href="mailto:molivera@mowplayer.com" style="color:#d6cde0;text-decoration:none">molivera@mowplayer.com</a></p>
+    </div>
+  </div>
+  <p id="p9fe0d8adaa58r4_1-9e2de9fd" style="position:absolute; top:837px; left:1397.97px; width:379px; padding:20px 34px; font-family:Manrope, sans-serif; font-size:28px; font-weight:800; white-space:nowrap; color:#ffffff; background:linear-gradient(90deg, #fc3262 0%, #921ea0 100%); border-radius:256px; box-shadow:0 14px 40px #fc326259"><a target="_blank" rel="noopener" href="https://calendar.app.google/FrUFeFTiynkLAzgZ7" style="color:#ffffff;text-decoration:none">Coordinemos el test →</a></p>
+  <aside>Cada medio tiene una audiencia, una estrategia y unas necesidades diferentes. Por eso proponemos un test sin compromiso para evaluar el rendimiento de nuestras soluciones en su sitio. Cómo funciona: 1) elegimos juntos la solución más adecuada para su audiencia; 2) implementamos un test para evaluar su funcionamiento y rendimiento; 3) analizamos los resultados y definimos los próximos pasos en función de su experiencia y conformidad. Sin compromiso de continuidad: la decisión de seguir depende de su satisfacción con los resultados. Contacto: Mateo Olivera, Sales Director.</aside>
+</section>
+</div>
+<div id="notes"></div>
+<div id="bar">
+  <button id="prev" aria-label="Anterior">←</button>
+  <span id="count"></span>
+  <button id="next" aria-label="Siguiente">→</button>
+  <button id="fs" aria-label="Pantalla completa">⤢</button>
+</div>
+<script>
+(function(){
+  var M=window.matchMedia('(orientation: portrait) and (max-width: 900px)');
+  window.__mobile=M.matches;
+  if(!M.matches)return;
+  var stage=document.getElementById('stage');
+  var secs=[].slice.call(stage.children);
+  // medir en layout desktop
+  var data=[];
+  secs.forEach(function(s){s.querySelectorAll('*').forEach(function(el){
+    if(el.closest('svg')&&el.tagName.toLowerCase()!=='svg')return;
+    var r=el.getBoundingClientRect(),cs=getComputedStyle(el);
+    data.push({el:el,w:r.width,h:r.height,cs:{pos:el.style.position,disp:cs.display,dir:cs.flexDirection,iw:parseFloat(el.style.width)||0,ih:parseFloat(el.style.height)||0}});
+  })});
+  var W=new Map();data.forEach(function(d){W.set(d.el,d.w)});
+  data.forEach(function(d){
+    var el=d.el,tag=el.tagName.toLowerCase(),c=el.classList;
+    if(tag==='aside'||tag==='svg')return;
+    if(d.cs.pos==='absolute'){
+      var hasContent=(el.textContent.trim().length>0)||tag==='img'||el.querySelector('img');
+      if(!hasContent){c.add('mx-hide');return}
+      c.add('mx-static','mx-tl');
+    }
+    if(tag==='img'){ if(d.w>=220)c.add('mx-img'); return; }
+    if(d.cs.iw>300||d.w>640)c.add('mx-w');
+    if(d.cs.ih>120)c.add('mx-h');
+    if(el.style.whiteSpace==='nowrap'&&el.querySelector('a'))c.add('mx-cta');
+    if(d.cs.disp.indexOf('flex')>-1&&d.cs.dir==='row'){
+      var kids=[].slice.call(el.children).filter(function(k){return k.tagName.toLowerCase()!=='aside'});
+      var big=kids.filter(function(k){return (W.get(k)||0)>=240});
+      var col=(big.length>=3)||big.some(function(k){return W.get(k)>=400})&&big.length>=2;
+      if(col){c.add('mx-col');kids.forEach(function(k){ if((W.get(k)||0)<60&&!k.textContent.trim())k.classList.add('mx-hide'); else k.classList.add('mx-item');});}
+      else c.add('mx-wrap');
+    }
+  });
+  document.documentElement.classList.add('m');
+  function z(){stage.style.zoom=(document.documentElement.clientWidth/680)}
+  z();addEventListener('resize',z);
+  M.addEventListener&&M.addEventListener('change',function(){location.reload()});
+})();
+</script>
+<script>
+(function(){
+  if(window.__mobile){var MM=window.matchMedia('(orientation: portrait) and (max-width: 900px)');return;}
+  var stage=document.getElementById('stage'),slides=[].slice.call(stage.children),i=0;
+  var notes=document.getElementById('notes'),count=document.getElementById('count'),prog=document.getElementById('prog');
+  function fit(){var s=Math.min(innerWidth/1920,innerHeight/1080);stage.style.transform='translate(-50%,-50%) scale('+s+')';}
+  function go(n){
+    i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach(function(s,k){s.classList.toggle('active',k===i)});
+    var a=slides[i].querySelector('aside');notes.textContent=a?a.textContent:'';
+    count.textContent=(i+1)+' / '+slides.length;prog.style.width=((i+1)/slides.length*100)+'%';
+    if(location.hash!=='#'+(i+1))history.replaceState(null,'','#'+(i+1));
+  }
+  function fs(){if(!document.fullscreenElement)document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();else document.exitFullscreen();}
+  addEventListener('resize',fit);
+  addEventListener('keydown',function(e){
+    if(['ArrowRight','PageDown',' ','Enter'].indexOf(e.key)>-1){e.preventDefault();go(i+1)}
+    else if(['ArrowLeft','PageUp','Backspace'].indexOf(e.key)>-1){e.preventDefault();go(i-1)}
+    else if(e.key==='Home')go(0);else if(e.key==='End')go(slides.length-1);
+    else if(e.key==='f'||e.key==='F')fs();else if(e.key==='n'||e.key==='N')notes.classList.toggle('on');
+  });
+  stage.addEventListener('click',function(e){if(e.target.closest('a'))return;go(e.clientX>innerWidth/3?i+1:i-1)});
+  var x0=null;addEventListener('touchstart',function(e){x0=e.touches[0].clientX},{passive:true});
+  addEventListener('touchend',function(e){if(x0===null)return;var d=e.changedTouches[0].clientX-x0;if(Math.abs(d)>40)go(d<0?i+1:i-1);x0=null});
+  document.getElementById('prev').onclick=function(){go(i-1)};
+  document.getElementById('next').onclick=function(){go(i+1)};
+  document.getElementById('fs').onclick=fs;
+  addEventListener('hashchange',function(){var n=(parseInt(location.hash.slice(1),10)||1)-1;if(n!==i)go(n)});
+  var MQ=window.matchMedia('(orientation: portrait) and (max-width: 900px)');MQ.addEventListener&&MQ.addEventListener('change',function(){location.reload()});
+  fit();go((parseInt(location.hash.slice(1),10)||1)-1);
+})();
+</script>
+</body>
+</html>
