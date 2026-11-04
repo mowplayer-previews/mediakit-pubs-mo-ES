@@ -16,6 +16,8 @@
   #stage{position:absolute;top:50%;left:50%;width:1920px;height:1080px;transform-origin:center center}
   #stage>section{position:absolute;inset:0;width:1920px;height:1080px;overflow:hidden;font-family:Manrope,sans-serif;color:#f4eff7;opacity:0;visibility:hidden;transition:opacity .45s ease,visibility .45s}
   #stage>section.active{opacity:1;visibility:visible}
+  #stage>section{isolation:isolate}
+  #stage>section>div[style*="radial-gradient"]{z-index:-1;pointer-events:none}
   section img{display:block}
   section a{color:inherit;text-decoration:none}
   aside{display:none}
@@ -64,10 +66,10 @@
         <div style="flex:1; background:#1e1429; border:2px solid #3a2f48; border-radius:18px; padding:18px 22px; display:flex; flex-direction:column; gap:6px"><p style="font-family:Archivo, sans-serif; font-size:60px; font-weight:900; line-height:1; letter-spacing:-1.5px; color:#c65bff">−33%</p><p style="font-size:24px; font-weight:700; line-height:1.3; color:#f7f3fa">de tráfico orgánico desde Google</p></div>
       </div>
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px">
-        <div style="display:flex; flex-direction:row; gap:16px; align-items:center; background:#f6f3f8; border-radius:18px; box-shadow:0px 14px 40px rgba(0,0,0,0.35); padding:16px 20px"><div style="width:48px; height:48px; border-radius:14px; background:linear-gradient(135deg, #fc3262 0%, #c22a86 100%); display:flex; align-items:center; justify-content:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;color:#ffffff; width:26px; height:26px"><polygon points="6 3 20 12 6 21 6 3"/></svg></div><p style="font-size:26px; font-weight:800; color:#1d2b36">Summary</p></div>
-        <div style="display:flex; flex-direction:row; gap:16px; align-items:center; background:#f6f3f8; border-radius:18px; box-shadow:0px 14px 40px rgba(0,0,0,0.35); padding:16px 20px"><div style="width:48px; height:48px; border-radius:14px; background:linear-gradient(135deg, #d63a8a 0%, #b03cc8 100%); display:flex; align-items:center; justify-content:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;color:#ffffff; width:26px; height:26px"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><p style="font-size:26px; font-weight:800; color:#1d2b36">Live Data Widget</p></div>
-        <div style="display:flex; flex-direction:row; gap:16px; align-items:center; background:#f6f3f8; border-radius:18px; box-shadow:0px 14px 40px rgba(0,0,0,0.35); padding:16px 20px"><div style="width:48px; height:48px; border-radius:14px; background:linear-gradient(135deg, #b03cc8 0%, #921ea0 100%); display:flex; align-items:center; justify-content:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;color:#ffffff; width:26px; height:26px"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg></div><p style="font-size:26px; font-weight:800; color:#1d2b36">MOW Brief</p></div>
-        <div style="display:flex; flex-direction:row; gap:16px; align-items:center; background:#f6f3f8; border-radius:18px; box-shadow:0px 14px 40px rgba(0,0,0,0.35); padding:16px 20px"><div style="width:48px; height:48px; border-radius:14px; background:linear-gradient(135deg, #921ea0 0%, #6a1580 100%); display:flex; align-items:center; justify-content:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;color:#ffffff; width:26px; height:26px"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div><p style="font-size:26px; font-weight:800; color:#1d2b36">Receptividad</p></div>
+        <div style="display:flex; flex-direction:row; gap:16px; align-items:center; background:#f6f3f8; border-radius:18px; box-shadow:0px 14px 40px rgba(0,0,0,0.35); padding:16px 20px"><div style="width:48px; height:48px; border-radius:14px; background:linear-gradient(135deg, #fc3262 0%, #c22a86 100%); display:flex; align-items:center; justify-content:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;color:#ffffff; width:26px; height:26px"><polygon points="6 3 20 12 6 21 6 3"/></svg></div><p style="font-size:26px; font-weight:800; color:#1d2b36"><a href="#2"><span style="color:#1d2b36">Summary</span></a></p></div>
+        <div style="display:flex; flex-direction:row; gap:16px; align-items:center; background:#f6f3f8; border-radius:18px; box-shadow:0px 14px 40px rgba(0,0,0,0.35); padding:16px 20px"><div style="width:48px; height:48px; border-radius:14px; background:linear-gradient(135deg, #d63a8a 0%, #b03cc8 100%); display:flex; align-items:center; justify-content:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;color:#ffffff; width:26px; height:26px"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><p style="font-size:26px; font-weight:800; color:#1d2b36"><a href="#3"><span style="color:#1d2b36">Live Data Widget</span></a></p></div>
+        <div style="display:flex; flex-direction:row; gap:16px; align-items:center; background:#f6f3f8; border-radius:18px; box-shadow:0px 14px 40px rgba(0,0,0,0.35); padding:16px 20px"><div style="width:48px; height:48px; border-radius:14px; background:linear-gradient(135deg, #b03cc8 0%, #921ea0 100%); display:flex; align-items:center; justify-content:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;color:#ffffff; width:26px; height:26px"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg></div><p style="font-size:26px; font-weight:800; color:#1d2b36"><a href="#4"><span style="color:#1d2b36">MOW Brief</span></a></p></div>
+        <div style="display:flex; flex-direction:row; gap:16px; align-items:center; background:#f6f3f8; border-radius:18px; box-shadow:0px 14px 40px rgba(0,0,0,0.35); padding:16px 20px"><div style="width:48px; height:48px; border-radius:14px; background:linear-gradient(135deg, #921ea0 0%, #6a1580 100%); display:flex; align-items:center; justify-content:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;color:#ffffff; width:26px; height:26px"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div><p style="font-size:26px; font-weight:800; color:#1d2b36"><a href="#5"><span style="color:#1d2b36">Receptividad</span></a></p></div>
       </div>
     </div>
     <div style="flex:1; display:flex; flex-direction:column; gap:14px">
@@ -356,6 +358,22 @@
   addEventListener('hashchange',function(){var n=(parseInt(location.hash.slice(1),10)||1)-1;if(n!==i)go(n)});
   var MQ=window.matchMedia('(orientation: portrait) and (max-width: 900px)');MQ.addEventListener&&MQ.addEventListener('change',function(){location.reload()});
   fit();go((parseInt(location.hash.slice(1),10)||1)-1);
+})();
+</script>
+<script>
+(function(){
+  function nav(n){
+    var secs=document.querySelectorAll('#stage>section');
+    if(document.documentElement.classList.contains('m')){var s=secs[n-1];if(s)s.scrollIntoView({behavior:'smooth'});}
+    else location.hash='#'+n;
+  }
+  document.querySelectorAll('#stage a[href^="#"]').forEach(function(a){
+    var n=parseInt(a.getAttribute('href').slice(1),10); if(!n)return;
+    function h(e){e.preventDefault();e.stopPropagation();nav(n);}
+    a.addEventListener('click',h);
+    var p=a.closest('p'),tile=p&&p.parentElement;
+    if(tile&&tile.tagName==='DIV'){tile.style.cursor='pointer';tile.addEventListener('click',h);}
+  });
 })();
 </script>
 </body>
